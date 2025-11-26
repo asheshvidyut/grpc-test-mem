@@ -127,9 +127,15 @@ void trigger_mem(const std::string& file_path) {
 
         std::cout << "Iteration " << std::noshowpos << i + 1 << "/" << NUM_ITERATIONS << ": "
                   << "Current RSS: " << std::fixed << std::setprecision(2) << current_rss << " MB | "
-                  << "Total increase: " << std::showpos << std::fixed << std::setprecision(2) << diff_from_start << " MB | "
-                  << "Delta: " << std::showpos << std::fixed << std::setprecision(2) << diff_from_last << " MB"
-                  << std::endl;
+                  << "Total increase: " << std::showpos << std::fixed << std::setprecision(2) << diff_from_start << " MB";
+
+        if (diff_from_last != 0) {
+            std::cout << " | "
+                << "Delta: " << std::showpos << std::fixed << std::setprecision(2) << diff_from_last << " MB"
+                << std::endl;
+        } else {
+            std::cout << std::endl;
+        }
 
         // Sleep to mimic real-world processing pause
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
