@@ -100,13 +100,14 @@ void trigger_mem(const std::string& file_path) {
     std::cout << "PID: " << getpid() << std::endl;
     std::cout << "Initial RSS: " << initial_rss << " MB" << std::endl;
     std::cout << "---------------------------------------------------------" << std::endl;
+    double prev_rss = 0;
 
     for (int i = 0; i < NUM_ITERATIONS; ++i) {
         // --- 1. File Read Simulation (Memory Spike) ---
         // Create a thread to run the file read function.
         std::thread t(read_file, file_path);
         // read_file(file_path);
-        
+
         // Wait for the thread to finish. This ensures the memory allocated
         // inside 'read_file' is released before the next iteration (unless a leak occurs).
         t.join();
@@ -121,12 +122,15 @@ void trigger_mem(const std::string& file_path) {
         // --- 3. Monitoring and Output ---
         double current_rss = get_current_rss_mb();
         double diff_from_start = current_rss - initial_rss;
+        double diff_from_last = current_rss - prev_rss;
+        prev_rss = current_rss;
 
-        std::cout << "Iteration " << i + 1 << "/" << NUM_ITERATIONS << ": "
+        std::cout << "Iteration " << std::noshowpos << i + 1 << "/" << NUM_ITERATIONS << ": "
                   << "Current RSS: " << std::fixed << std::setprecision(2) << current_rss << " MB | "
-                  << "Total increase: +" << std::fixed << std::setprecision(2) << diff_from_start << " MB"
+                  << "Total increase: " << std::showpos << std::fixed << std::setprecision(2) << diff_from_start << " MB | "
+                  << "Delta: " << std::showpos << std::fixed << std::setprecision(2) << diff_from_last << " MB"
                   << std::endl;
-        
+
         // Sleep to mimic real-world processing pause
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
