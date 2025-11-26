@@ -1,0 +1,11 @@
+module(
+    name = "cpp-mem-leak-repro",
+    version = "0.1",
+)
+
+bazel_dep(name = "grpc", version = "1.76.0")
+bazel_dep(name = "abseil-cpp", version = "20250814.1")
+
+# Transitive dependencies often needed by grpc
+bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "bazel_skylib", version = "1.6.1")
