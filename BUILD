@@ -17,3 +17,13 @@ cc_binary(
         "@grpc//:grpc++",
     ],
 )
+
+cc_binary(
+    name = "test-mem-leak-write-concurrent",
+    srcs = ["test-mem-leak-write-concurrent.cpp"],
+    deps = [
+        "@abseil-cpp//absl/log",
+        "@abseil-cpp//absl/strings",
+        "@grpc//:grpc++",
+    ],
+)
