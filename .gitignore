@@ -1,0 +1,7 @@
+# Bazel files
+bazel-*
+
+# Bazel wrapper
+bazel_wrapper
+bazel_wrapper.bat
+bazel_wrapper.bazelrc
